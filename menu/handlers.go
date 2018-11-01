@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/abiosoft/ishell"
+	"github.com/metrosystems-cpe/DDOM/constants"
 	"github.com/metrosystems-cpe/DDOM/utils"
 )
 
@@ -14,7 +15,14 @@ func checkOrgHandler(c *ishell.Context) {
 	}
 	organisationName := c.Args[0]
 	c.Printf("%s: \n", organisationName)
-	c.Println("All details")
+	confRef := c.Get("appConfig").(*utils.AppConfig)
+	v, f := confRef.OrgCfg.Find(c.Args[0])
+	if f {
+		c.Println(v)
+	} else {
+		c.Println("Organisation not found")
+	}
+
 }
 
 func setObjectHandler(c *ishell.Context) {
@@ -30,7 +38,7 @@ func setObjectHandler(c *ishell.Context) {
 		rawInput, err = strconv.Atoi(c.ReadLine())
 	}
 	refConfig.UsedObjectID = uint(rawInput)
-	c.Printf("Context set to %s\n", utils.Objects[refConfig.UsedObjectID])
+	c.Printf("Context set to %s\n", constants.Objects[refConfig.UsedObjectID])
 }
 
 func setMethodHandler(c *ishell.Context) {
@@ -51,10 +59,10 @@ func setMethodHandler(c *ishell.Context) {
 		rawInput, err = strconv.Atoi(c.ReadLine())
 	}
 	refConfig.Method = uint(rawInput)
-	c.Printf("Method set to %s\n", utils.Methods[refConfig.Method])
+	c.Printf("Method set to %s\n", constants.Methods[refConfig.Method])
 }
 
 func runHandler(c *ishell.Context) {
 	refConfig := c.Get("appConfig").(*utils.AppConfig)
-	c.Printf("The app will run in context of %s and will perform %s\n", utils.Objects[refConfig.UsedObjectID], utils.Methods[refConfig.Method])
+	c.Printf("The app will run in context of %s and will perform %s\n", constants.Objects[refConfig.UsedObjectID], constants.Methods[refConfig.Method])
 }

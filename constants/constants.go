@@ -1,4 +1,4 @@
-package utils
+package constants
 
 // Objects is a mapping for the used objects in DD
 var Objects = map[uint]string{
@@ -11,3 +11,5 @@ var Methods = map[uint]string{
 	2: "Transfer",
 	3: "LoadFromFile",
 }
+
+const ConfigFilePath = "~/ddom.yaml"
