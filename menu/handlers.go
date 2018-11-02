@@ -5,6 +5,7 @@ import (
 
 	"github.com/abiosoft/ishell"
 	"github.com/metrosystems-cpe/DDOM/constants"
+	"github.com/metrosystems-cpe/DDOM/helpers"
 	"github.com/metrosystems-cpe/DDOM/utils"
 )
 
@@ -14,11 +15,12 @@ func checkOrgHandler(c *ishell.Context) {
 		return
 	}
 	organisationName := c.Args[0]
-	c.Printf("%s: \n", organisationName)
+	c.Printf("%s: \n\n", organisationName)
 	confRef := c.Get("appConfig").(*utils.AppConfig)
 	v, f := confRef.OrgCfg.Find(c.Args[0])
 	if f {
-		c.Println(v)
+		row := [][]interface{}{{v.URL, v.APIKey, v.AppKey}}
+		c.Println(helpers.BuildPrintableTable([]string{"URL", "API KEY", "APP KEY"}, row))
 	} else {
 		c.Println("Organisation not found")
 	}

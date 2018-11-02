@@ -14,8 +14,8 @@ func LoadfromFile() OrganisationList {
 	helpers.PanicIfError(err, "File could not be read")
 
 	list := make(OrganisationList)
-	err = yaml.Unmarshal(byteContent, &list)
 
+	err = yaml.Unmarshal(byteContent, &list)
 	helpers.PanicIfError(err, "Corupted data")
 
 	return list

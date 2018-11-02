@@ -1,9 +1,9 @@
 package config
 
 type Organisation struct {
-	AppKey string
-	APIKey string
-	URL    string
+	AppKey string `yaml:"AppKey"`
+	APIKey string `yaml:"APIKey"`
+	URL    string `yaml:"URL"`
 }
 
 type OrganisationList map[string]Organisation

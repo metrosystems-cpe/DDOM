@@ -12,4 +12,4 @@ var Methods = map[uint]string{
 	3: "LoadFromFile",
 }
 
-const ConfigFilePath = "~/ddom.yaml"
+const ConfigFilePath = "./ddom.yaml"
