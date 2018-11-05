@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/abiosoft/ishell"
+	"github.com/metrosystems-cpe/DDOM/actions"
 	"github.com/metrosystems-cpe/DDOM/constants"
 	"github.com/metrosystems-cpe/DDOM/helpers"
 	"github.com/metrosystems-cpe/DDOM/utils"
@@ -54,6 +55,10 @@ func setMethodHandler(c *ishell.Context) {
 		c.Println("Context not set. Run setContext")
 		return
 	}
+	if refConfig.UsedObjectID == 0 {
+		c.Println()
+		return
+	}
 	c.Printf("1 for Backup\n2 for Transfer\n3 for LoadFromFile\n")
 	rawInput, err = strconv.Atoi(c.ReadLine())
 	for err != nil {
@@ -66,5 +71,18 @@ func setMethodHandler(c *ishell.Context) {
 
 func runHandler(c *ishell.Context) {
 	refConfig := c.Get("appConfig").(*utils.AppConfig)
-	c.Printf("The app will run in context of %s and will perform %s\n", constants.Objects[refConfig.UsedObjectID], constants.Methods[refConfig.Method])
+	if refConfig.UsedObjectID == 0 {
+		c.Println("Object not set. Run setObject")
+		return
+	}
+	switch refConfig.Method {
+	case 1:
+		actions.Backup(c)
+	case 2:
+		actions.Transfer(c)
+	case 3:
+		actions.LoadFromFile(c)
+	default:
+		c.Println("Method not set. Run setMethod")
+	}
 }

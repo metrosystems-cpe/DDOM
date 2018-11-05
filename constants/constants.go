@@ -19,21 +19,3 @@ var Methods = map[uint]string{
 }
 
 const ConfigFilePath = "./ddom.yaml"
-
-var DDAPIEndpoints = map[uint]interface{}{
-	1: map[string]interface{}{
-		"index":  Endpoint{Method: "GET", Url: "https://api.datadoghq.com/api/v1/monitor"},
-		"create": Endpoint{Method: "POST", Url: "https://api.datadoghq.com/api/v1/monitor"},
-		"update": Endpoint{Method: "PUT", Url: "https://api.datadoghq.com/api/v1/monitor/"},
-	},
-	2: map[string]interface{}{
-		"index":  Endpoint{Method: "GET", Url: "https://api.datadoghq.com/api/v1/dashboard/lists/manual"},
-		"create": Endpoint{Method: "POST", Url: "https://api.datadoghq.com/api/v1/dashboard/lists/manual"},
-		"update": Endpoint{Method: "PUT", Url: "https://api.datadoghq.com/api/v1/dashboard/lists/manual/"},
-	},
-	3: map[string]interface{}{
-		"index":  Endpoint{Method: "GET", Url: "https://api.datadoghq.com/api/v1/dash"},
-		"create": Endpoint{Method: "POST", Url: "https://api.datadoghq.com/api/v1/dash"},
-		"update": Endpoint{Method: "PUT", Url: "https://api.datadoghq.com/api/v1/dash/"},
-	},
-}

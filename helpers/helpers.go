@@ -39,8 +39,17 @@ func BuildPrintableTable(colNames []string, rows [][]interface{}) *tm.Table {
 
 	fmt.Fprintf(table, buildRowString(colNames))
 
+	var pattern bytes.Buffer
+	for i := 0; i < len(colNames); i++ {
+		if i < len(colNames)-1 {
+			pattern.WriteString("%s\t")
+		} else {
+			pattern.WriteString("%s\n")
+		}
+	}
+
 	for _, row := range rows {
-		fmt.Fprintf(table, "%s\t%s\t%s\n", row...)
+		fmt.Fprintf(table, pattern.String(), row...)
 	}
 
 	return table
