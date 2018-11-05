@@ -14,6 +14,7 @@ var (
 
 func init() {
 	shell = ishell.New()
+	shell.SetHistoryPath("./history")
 	appConfig.OrgCfg = config.LoadfromFile()
 	shell.Set("appConfig", &appConfig)
 }
