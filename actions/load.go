@@ -35,12 +35,11 @@ func loadDashboard(path string, orgCfg config.Organisation) {
 }
 
 func loadMonitor(path string, orgCfg config.Organisation) {
-	files, err := ioutil.ReadDir(path) // plm ??
+	files, err := ioutil.ReadDir(path)
 	if err != nil {
 		log.Fatal(err)
 	}
 	for _, f := range files {
-		// fmt.Println(f.Name())
 		jsonFile, err := os.Open(path + "/" + f.Name())
 		if err != nil {
 			fmt.Println(err)
@@ -52,12 +51,11 @@ func loadMonitor(path string, orgCfg config.Organisation) {
 			err = ddObjects.CreateMonitors(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, &result)
 			if err == nil {
 				fmt.Println(fmt.Sprintf("Monitor created successfully from file: %v\n", f.Name()))
-				// fmt.Printf("\nMonitor created successfully from file")
 			} else {
 				fmt.Printf("Could not create datadog monitor from file %v\n", f.Name())
 			}
 		} else {
-			fmt.Printf("Not a monitor json - %v\n", f.Name())
+			fmt.Printf("Not a valid monitor json - %v\n", f.Name())
 		}
 
 	}

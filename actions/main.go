@@ -42,7 +42,6 @@ func LoadFromFile(context *ishell.Context) {
 	context.Print("Enter organization: ")
 	org := context.ReadLine()
 	if orgCfg, found := appCfg.OrgCfg.Find(org); found {
-		// fmt.Println(path)
 		switch appCfg.UsedObjectID {
 		case 1:
 			// load monitors
