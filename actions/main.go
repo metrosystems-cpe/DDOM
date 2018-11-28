@@ -36,7 +36,28 @@ func Backup(context *ishell.Context) {
 }
 
 func LoadFromFile(context *ishell.Context) {
-	fmt.Println("will load")
+	appCfg := context.Get("appConfig").(*utils.AppConfig)
+	context.Print("Enter a path from where to load the json: ")
+	path := context.ReadLine()
+	context.Print("Enter organization: ")
+	org := context.ReadLine()
+	if orgCfg, found := appCfg.OrgCfg.Find(org); found {
+		switch appCfg.UsedObjectID {
+		case 1:
+			// load monitors
+			loadMonitor(path, orgCfg)
+		case 2:
+			// load dashboards
+			loadDashboard(path, orgCfg)
+		case 3:
+			// load timeboards
+			loadTimeboard(path, orgCfg)
+		}
+
+	} else {
+		context.Println("Org not found")
+	}
+
 }
 
 func Transfer(context *ishell.Context) {
