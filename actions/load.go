@@ -63,6 +63,24 @@ func loadMonitor(path string, orgCfg config.Organisation) {
 	}
 }
 
-// func loadTimeboard {
-
-// }
+func loadTimeboard(path string, orgCfg config.Organisation) {
+	files, err := ioutil.ReadDir(path) // plm ??
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, f := range files {
+		jsonFile, err := os.Open(path + "/" + f.Name())
+		if err != nil {
+			fmt.Println(err)
+		}
+		byteValue, _ := ioutil.ReadAll(jsonFile)
+		var result datadog.Screenboard
+		json.Unmarshal([]byte(byteValue), &result)
+		err = ddObjects.CreateScreenboards(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, &result)
+		if err != nil {
+			fmt.Println(fmt.Sprintf("Could not create datadog screenboard from file %v\n", f.Name()))
+		} else {
+			fmt.Println(fmt.Sprintf("Screeboard created successfully from file %v\n", f.Name()))
+		}
+	}
+}

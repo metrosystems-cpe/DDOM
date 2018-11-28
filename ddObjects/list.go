@@ -85,3 +85,10 @@ func CreateMonitors(APIKey string, AppKey string, orgURL string, mon *datadog.Mo
 
 	return err
 }
+
+func CreateScreenboards(APIKey string, AppKey string, orgURL string, screen *datadog.Screenboard) error {
+	client := buildDDClient(APIKey, AppKey, orgURL)
+	_, err := client.CreateScreenboard(screen)
+
+	return err
+}
