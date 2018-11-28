@@ -34,7 +34,7 @@ func setObjectHandler(c *ishell.Context) {
 		err      error
 	)
 	refConfig := c.Get("appConfig").(*utils.AppConfig)
-	c.Print("Use 1 for Monitors or 2 for Dashboards or 3 for Timeboards ")
+	c.Print("Use 1 for Monitors or 2 for Dashboards or 3 for Screenboards ")
 	rawInput, err = strconv.Atoi(c.ReadLine())
 	for err != nil {
 		c.Println("Not a valid option. Use 1 / 2 / 3")

@@ -71,3 +71,17 @@ func TimeboardDetails(APIKey string, AppKey string, orgURL string, timeID string
 	helpers.LogError(err)
 	return tb
 }
+
+func CreateDashboards(APIKey string, AppKey string, orgURL string, dash *datadog.Dashboard) error {
+	client := buildDDClient(APIKey, AppKey, orgURL)
+	_, err := client.CreateDashboard(dash)
+
+	return err
+}
+
+func CreateMonitors(APIKey string, AppKey string, orgURL string, mon *datadog.Monitor) error {
+	client := buildDDClient(APIKey, AppKey, orgURL)
+	_, err := client.CreateMonitor(mon)
+
+	return err
+}

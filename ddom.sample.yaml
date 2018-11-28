@@ -1,9 +1,0 @@
----
-organisation1:
-  APIKey: "this_is_some_api_key"
-  AppKey: "this_is_some_app_key"
-  URL: "This_is_the_url"
-organisation2:
-  APIKey: "this_is_some_api_key"
-  AppKey: "this_is_some_app_key"
-  URL: "This_is_the_url"
