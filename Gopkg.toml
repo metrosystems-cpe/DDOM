@@ -31,15 +31,39 @@
 
 [[constraint]]
   branch = "master"
+  name = "github.com/abiosoft/readline"
+
+[[constraint]]
+  branch = "master"
   name = "github.com/buger/goterm"
 
 [[constraint]]
-  name = "github.com/zorkian/go-datadog-api"
-  version = "2.18.0"
+  name = "github.com/fatih/color"
+  version = "1.7.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/flynn-archive/go-shlex"
+
+[[constraint]]
+  name = "github.com/mattn/go-colorable"
+  version = "0.0.9"
+
+[[constraint]]
+  name = "github.com/mattn/go-isatty"
+  version = "0.0.4"
+
+[[constraint]]
+  branch = "master"
+  name = "golang.org/x/sys"
 
 [[constraint]]
   name = "gopkg.in/yaml.v2"
-  version = "2.2.1"
+  version = "2.2.2"
+
+[[constraint]]
+  name = "gopkg.in/zorkian/go-datadog-api.v2"
+  version = "2.18.0"
 
 [prune]
   go-tests = true
