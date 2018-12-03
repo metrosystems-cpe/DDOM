@@ -40,7 +40,10 @@ func backupDashboards(path string, ids []string, orgCfg config.Organisation) {
 
 func backupTimeboards(path string, ids []string, orgCfg config.Organisation) {
 	for _, id := range ids {
-		tb := ddObjects.TimeboardDetails(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, id)
+		tb, err := ddObjects.TimeboardDetails(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, id)
+		if err != nil {
+			fmt.Printf("Timeboard with ID: %v could not pe saved.Error: %v", id, err)
+		}
 		tbOut, _ := json.Marshal(tb)
 		fileName := fmt.Sprintf("%s/%d.json", path, tb.GetId())
 		writeToFile(fileName, tbOut)

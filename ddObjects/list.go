@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/metrosystems-cpe/DDOM/helpers"
+	// datadog "gopkg.in/zorkian/go-datadog-api.v2"
 	datadog "github.com/zorkian/go-datadog-api"
 )
 
@@ -29,14 +30,14 @@ func List(APIKey string, AppKey string, orgURL string, objType uint) [][]interfa
 		}
 	case 2:
 		// Dashboards
-		dashboards, err := dClient.GetDashboardLists()
+		dashboards, err := dClient.GetDashboards()
 		helpers.LogError(err)
 		for _, dash := range dashboards {
-			result = append(result, []interface{}{strconv.Itoa(dash.GetId()), dash.GetName()})
+			result = append(result, []interface{}{strconv.Itoa(dash.GetId()), dash.GetTitle()})
 		}
 	case 3:
 		// timeboards
-		timeboards, err := dClient.GetDashboards()
+		timeboards, err := dClient.GetScreenboards()
 		helpers.LogError(err)
 		for _, t := range timeboards {
 			result = append(result, []interface{}{strconv.Itoa(t.GetId()), t.GetTitle()})
@@ -54,22 +55,22 @@ func MonitorDetails(APIKey string, AppKey string, orgURL string, monitorID strin
 	return mon
 }
 
-func DashboardDetails(APIKey string, AppKey string, orgURL string, dashID string) *datadog.DashboardList {
+func DashboardDetails(APIKey string, AppKey string, orgURL string, dashID string) *datadog.Dashboard {
 	client := buildDDClient(APIKey, AppKey, orgURL)
 	ID, err := strconv.Atoi(dashID)
 	helpers.LogError(err)
-	dash, err := client.GetDashboardList(ID)
+	dash, err := client.GetDashboard(ID)
 	helpers.LogError(err)
 	return dash
 }
 
-func TimeboardDetails(APIKey string, AppKey string, orgURL string, timeID string) *datadog.Dashboard {
+func TimeboardDetails(APIKey string, AppKey string, orgURL string, timeID string) (*datadog.Screenboard, error) {
 	client := buildDDClient(APIKey, AppKey, orgURL)
 	ID, err := strconv.Atoi(timeID)
 	helpers.LogError(err)
-	tb, err := client.GetDashboard(ID)
+	tb, err := client.GetScreenboard(ID)
 	helpers.LogError(err)
-	return tb
+	return tb, err
 }
 
 func CreateDashboards(APIKey string, AppKey string, orgURL string, dash *datadog.Dashboard) error {
