@@ -57,11 +57,39 @@ func LoadFromFile(context *ishell.Context) {
 	} else {
 		context.Println("Org not found")
 	}
-
 }
 
 func Transfer(context *ishell.Context) {
-	fmt.Println("will transfer")
+	appCfg := context.Get("appConfig").(*utils.AppConfig)
+	context.Print("Enter DataDog organization source: ")
+	source := context.ReadLine()
+	context.Print("Enter DataDog organization destination: ")
+	destination := context.ReadLine()
+	if sourceCfg, found := appCfg.OrgCfg.Find(source); found {
+		if orgCfg, found := appCfg.OrgCfg.Find(destination); found {
+			fmt.Println(orgCfg)
+			list := ddObjects.List(sourceCfg.APIKey, sourceCfg.AppKey, sourceCfg.URL, appCfg.UsedObjectID)
+			columns := []string{"ID", "Name"}
+			table := helpers.BuildPrintableTable(columns, list)
+			context.Println(table)
+			context.Print("Enter comma separated ids to be stored: ")
+			ids := context.ReadLine()
+			idsArr := strings.Split(ids, ",")
+			switch appCfg.UsedObjectID {
+			case 1:
+				transferMonitor(idsArr, sourceCfg, orgCfg)
+			case 2:
+				transferDashboard(idsArr, sourceCfg, orgCfg)
+			case 3:
+				transferTimeboard(idsArr, sourceCfg, orgCfg)
+			}
+
+		} else {
+			context.Println("Destination Organization not found")
+		}
+	} else {
+		context.Println(" Source Organization not found")
+	}
 }
 
 func saveData(path string, ids string, appCfg *utils.AppConfig, orgCfg config.Organisation) {
