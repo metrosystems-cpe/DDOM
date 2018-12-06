@@ -7,15 +7,16 @@ import (
 	tm "github.com/buger/goterm"
 )
 
+// PanicIfError just panic
 func PanicIfError(err error, message string) {
 	if err != nil {
 		panic(message)
 	}
 }
 
+// LogError prints in STDOUT the error
 func LogError(err error) {
 	if err != nil {
-		// do things
 		fmt.Println(err.Error())
 	}
 }
@@ -34,6 +35,7 @@ func buildRowString(colNames []string) string {
 	return buffer.String()
 }
 
+// BuildPrintableTable builds and returns a printable table of objects
 func BuildPrintableTable(colNames []string, rows [][]interface{}) *tm.Table {
 	table := tm.NewTable(0, 10, 5, ' ', 0)
 

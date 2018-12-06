@@ -41,7 +41,7 @@ func setObjectHandler(c *ishell.Context) {
 		rawInput, err = strconv.Atoi(c.ReadLine())
 	}
 	refConfig.UsedObjectID = uint(rawInput)
-	c.Printf("Context set to %s\n", constants.Objects[refConfig.UsedObjectID])
+	c.Printf("Chosed object type set to %s\n", constants.Objects[refConfig.UsedObjectID])
 }
 
 func setMethodHandler(c *ishell.Context) {

@@ -8,6 +8,7 @@ import (
 	yaml "gopkg.in/yaml.v2"
 )
 
+// LoadfromFile is used to load config from YAML file
 func LoadfromFile() OrganisationList {
 	byteContent, err := ioutil.ReadFile(constants.ConfigFilePath)
 

@@ -4,7 +4,6 @@ import (
 	"strconv"
 
 	"github.com/metrosystems-cpe/DDOM/helpers"
-	// datadog "gopkg.in/zorkian/go-datadog-api.v2"
 	datadog "github.com/zorkian/go-datadog-api"
 )
 
@@ -46,6 +45,7 @@ func List(APIKey string, AppKey string, orgURL string, objType uint) [][]interfa
 	return result
 }
 
+// MonitorDetails retreives an monitor based on it's ID
 func MonitorDetails(APIKey string, AppKey string, orgURL string, monitorID string) *datadog.Monitor {
 	client := buildDDClient(APIKey, AppKey, orgURL)
 	ID, err := strconv.Atoi(monitorID)
@@ -55,6 +55,7 @@ func MonitorDetails(APIKey string, AppKey string, orgURL string, monitorID strin
 	return mon
 }
 
+// DashboardDetails retreives an monitor based on it's ID
 func DashboardDetails(APIKey string, AppKey string, orgURL string, dashID string) *datadog.Dashboard {
 	client := buildDDClient(APIKey, AppKey, orgURL)
 	ID, err := strconv.Atoi(dashID)
@@ -64,6 +65,7 @@ func DashboardDetails(APIKey string, AppKey string, orgURL string, dashID string
 	return dash
 }
 
+// TimeboardDetails retreives an monitor based on it's ID
 func TimeboardDetails(APIKey string, AppKey string, orgURL string, timeID string) (*datadog.Screenboard, error) {
 	client := buildDDClient(APIKey, AppKey, orgURL)
 	ID, err := strconv.Atoi(timeID)
@@ -73,6 +75,7 @@ func TimeboardDetails(APIKey string, AppKey string, orgURL string, timeID string
 	return tb, err
 }
 
+// CreateDashboards will push a dashboard to the dest organisation
 func CreateDashboards(APIKey string, AppKey string, orgURL string, dash *datadog.Dashboard) error {
 	client := buildDDClient(APIKey, AppKey, orgURL)
 	_, err := client.CreateDashboard(dash)
@@ -80,6 +83,7 @@ func CreateDashboards(APIKey string, AppKey string, orgURL string, dash *datadog
 	return err
 }
 
+// CreateMonitors will push a monitor to the dest organisation
 func CreateMonitors(APIKey string, AppKey string, orgURL string, mon *datadog.Monitor) error {
 	client := buildDDClient(APIKey, AppKey, orgURL)
 	_, err := client.CreateMonitor(mon)
@@ -87,6 +91,7 @@ func CreateMonitors(APIKey string, AppKey string, orgURL string, mon *datadog.Mo
 	return err
 }
 
+// CreateScreenboards will push a screenboard to the dest organisation
 func CreateScreenboards(APIKey string, AppKey string, orgURL string, screen *datadog.Screenboard) error {
 	client := buildDDClient(APIKey, AppKey, orgURL)
 	_, err := client.CreateScreenboard(screen)
