@@ -9,7 +9,7 @@ import (
 
 func transferDashboard(ids []string, sourceCfg config.Organisation, orgCfg config.Organisation) {
 	for _, id := range ids {
-		dash := ddObjects.DashboardDetails(sourceCfg.APIKey, sourceCfg.AppKey, sourceCfg.URL, id)
+		dash, _ := ddObjects.DashboardDetails(sourceCfg.APIKey, sourceCfg.AppKey, sourceCfg.URL, id)
 		err := ddObjects.CreateDashboards(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, dash)
 		if err != nil {
 			fmt.Println(fmt.Sprintf("Could not create datadog dashboard to destionation organisation"))
@@ -36,7 +36,7 @@ func transferTimeboard(ids []string, sourceCfg config.Organisation, orgCfg confi
 
 func transferMonitor(ids []string, sourceCfg config.Organisation, orgCfg config.Organisation) {
 	for _, id := range ids {
-		mon := ddObjects.MonitorDetails(sourceCfg.APIKey, sourceCfg.AppKey, sourceCfg.URL, id)
+		mon, _ := ddObjects.MonitorDetails(sourceCfg.APIKey, sourceCfg.AppKey, sourceCfg.URL, id)
 		err := ddObjects.CreateMonitors(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, mon)
 		if err != nil {
 			fmt.Println(fmt.Sprintf("Could not create datadog monitor to destionation organisation"))
