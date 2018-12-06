@@ -22,9 +22,6 @@ func transferDashboard(ids []string, sourceCfg config.Organisation, orgCfg confi
 func transferTimeboard(ids []string, sourceCfg config.Organisation, orgCfg config.Organisation) {
 	for _, id := range ids {
 		tb, err := ddObjects.TimeboardDetails(sourceCfg.APIKey, sourceCfg.AppKey, sourceCfg.URL, id)
-		// dashOut, _ := json.Marshal(dash)
-		// var result datadog.Dashboard
-		// json.Unmarshal([]byte(byteValue), &result)
 		err = ddObjects.CreateScreenboards(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, tb)
 		if err != nil {
 			fmt.Println(fmt.Sprintf("Could not create datadog timeboard to destionation organisation -- %v", err))
