@@ -1,6 +1,6 @@
 # DataDog Object Manager (DDOM)
 
-**DDOM** is a simple tool built to help us, the SRE team, to easely manage DataDog dashboards, monitors or screenboards. 
+**DDOM** is a simple tool built by SRE team for easelly manage DataDog dashboards, monitors or screenboards. 
 ## Configuration
 First of all you need to specify in **ddom.yaml** (ddom.yaml should be placed in the same directory whith the ddom binary file) a list of DataDog organisations. The format for this file is:
 ```yaml
