@@ -35,6 +35,7 @@ func Backup(context *ishell.Context) {
 	}
 }
 
+// LoadFromFile is the starting point to load from file func
 func LoadFromFile(context *ishell.Context) {
 	appCfg := context.Get("appConfig").(*utils.AppConfig)
 	context.Print("Enter a path from where to load the json: ")
@@ -59,6 +60,7 @@ func LoadFromFile(context *ishell.Context) {
 	}
 }
 
+// Transfer is starting point for transfer
 func Transfer(context *ishell.Context) {
 	appCfg := context.Get("appConfig").(*utils.AppConfig)
 	context.Print("Enter DataDog organization source: ")

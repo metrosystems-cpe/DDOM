@@ -46,23 +46,23 @@ func List(APIKey string, AppKey string, orgURL string, objType uint) [][]interfa
 }
 
 // MonitorDetails retreives an monitor based on it's ID
-func MonitorDetails(APIKey string, AppKey string, orgURL string, monitorID string) *datadog.Monitor {
+func MonitorDetails(APIKey string, AppKey string, orgURL string, monitorID string) (*datadog.Monitor, error) {
 	client := buildDDClient(APIKey, AppKey, orgURL)
 	ID, err := strconv.Atoi(monitorID)
 	helpers.LogError(err)
 	mon, err := client.GetMonitor(ID)
 	helpers.LogError(err)
-	return mon
+	return mon, err
 }
 
 // DashboardDetails retreives an monitor based on it's ID
-func DashboardDetails(APIKey string, AppKey string, orgURL string, dashID string) *datadog.Dashboard {
+func DashboardDetails(APIKey string, AppKey string, orgURL string, dashID string) (*datadog.Dashboard, error) {
 	client := buildDDClient(APIKey, AppKey, orgURL)
 	ID, err := strconv.Atoi(dashID)
 	helpers.LogError(err)
 	dash, err := client.GetDashboard(ID)
 	helpers.LogError(err)
-	return dash
+	return dash, err
 }
 
 // TimeboardDetails retreives an monitor based on it's ID

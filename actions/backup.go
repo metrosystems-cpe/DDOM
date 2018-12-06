@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/metrosystems-cpe/DDOM/config"
-	"github.com/metrosystems-cpe/DDOM/ddObjects"
 	"github.com/metrosystems-cpe/DDOM/helpers"
 )
 
@@ -20,32 +19,27 @@ func writeToFile(fileName string, data []byte) {
 	w.Flush()
 }
 
-func backupMonitors(path string, ids []string, orgCfg config.Organisation) {
+func backup(path string, ids []string, orgCfg config.Organisation, r objectRetriever) {
 	for _, id := range ids {
-		monitor := ddObjects.MonitorDetails(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, id)
-		monOut, _ := json.Marshal(monitor)
-		fileName := fmt.Sprintf("%s/%d.json", path, monitor.GetId())
-		writeToFile(fileName, monOut)
+		obj, err := r(orgCfg, id)
+		if err != nil {
+			fmt.Printf("Object with ID: %v could not pe saved. Error: %v", id, err)
+		} else {
+			objOut, _ := json.Marshal(obj)
+			fileName := fmt.Sprintf("%s/%s.json", path, id)
+			writeToFile(fileName, objOut)
+		}
 	}
+}
+
+func backupMonitors(path string, ids []string, orgCfg config.Organisation) {
+	backup(path, ids, orgCfg, getMonitor)
 }
 
 func backupDashboards(path string, ids []string, orgCfg config.Organisation) {
-	for _, id := range ids {
-		dash := ddObjects.DashboardDetails(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, id)
-		dashOut, _ := json.Marshal(dash)
-		fileName := fmt.Sprintf("%s/%d.json", path, dash.GetId())
-		writeToFile(fileName, dashOut)
-	}
+	backup(path, ids, orgCfg, getDashboard)
 }
 
 func backupTimeboards(path string, ids []string, orgCfg config.Organisation) {
-	for _, id := range ids {
-		tb, err := ddObjects.TimeboardDetails(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, id)
-		if err != nil {
-			fmt.Printf("Timeboard with ID: %v could not pe saved.Error: %v", id, err)
-		}
-		tbOut, _ := json.Marshal(tb)
-		fileName := fmt.Sprintf("%s/%d.json", path, tb.GetId())
-		writeToFile(fileName, tbOut)
-	}
+	backup(path, ids, orgCfg, getScreenboard)
 }
