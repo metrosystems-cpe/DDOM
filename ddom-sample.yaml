@@ -1,0 +1,10 @@
+---
+organisation1:
+  APIKey: api-key-here
+  AppKey: application-key-here
+  URL: custom-url-here
+organisation2:
+  APIKey: api-key-here
+  AppKey: application-key-here
+  URL: custom-url-here
+
