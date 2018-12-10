@@ -46,13 +46,13 @@ func LoadFromFile(context *ishell.Context) {
 		switch appCfg.UsedObjectID {
 		case 1:
 			// load monitors
-			loadMonitor(path, orgCfg)
+			LoadMonitor(path, orgCfg)
 		case 2:
 			// load dashboards
-			loadDashboard(path, orgCfg)
+			LoadDashboard(path, orgCfg)
 		case 3:
 			// load timeboards
-			loadTimeboard(path, orgCfg)
+			LoadTimeboard(path, orgCfg)
 		}
 
 	} else {

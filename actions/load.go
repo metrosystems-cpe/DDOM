@@ -27,43 +27,58 @@ func unmarshalData(path string, name string, result interface{}) {
 
 func logOutput(err error, objType string, name string) {
 	if err != nil {
-		fmt.Println(fmt.Sprintf("could not create %s from file %v\n", name, objType))
+		fmt.Println(fmt.Sprintf("%v -- could not create %s from file", name, objType))
 	} else {
-		fmt.Println(fmt.Sprintf("%s created successfully from file %v\n", name, objType))
+		fmt.Println(fmt.Sprintf("%v -- %s created successfully from file", name, objType))
 	}
 }
 
-func loadDashboard(path string, orgCfg config.Organisation) {
+func LoadDashboard(path string, orgCfg config.Organisation) []int {
 	files := getFiles(path)
+	var ids []int
 	for _, f := range files {
 		var result datadog.Dashboard
 		unmarshalData(path, f.Name(), &result)
-		err := ddObjects.CreateDashboards(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, &result)
+		id, err := ddObjects.CreateDashboards(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, &result)
 		logOutput(err, "dashboard", f.Name())
+		if id != 0 {
+			ids = append(ids, id)
+		}
 	}
+	return ids
 }
 
-func loadMonitor(path string, orgCfg config.Organisation) {
+func LoadMonitor(path string, orgCfg config.Organisation) []int {
 	files := getFiles(path)
+	var ids []int
 	for _, f := range files {
 		var result datadog.Monitor
 		unmarshalData(path, f.Name(), &result)
 		if _, ok := result.GetQueryOk(); ok {
-			err := ddObjects.CreateMonitors(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, &result)
+			id, err := ddObjects.CreateMonitors(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, &result)
 			logOutput(err, "monitor", f.Name())
+			if id != 0 {
+				ids = append(ids, id)
+			}
 		} else {
-			fmt.Printf("Not a valid monitor json - %v\n", f.Name())
+			fmt.Printf("%v -- Not a valid monitor json.\n", f.Name())
 		}
-
 	}
+	return ids
+
 }
 
-func loadTimeboard(path string, orgCfg config.Organisation) {
+func LoadTimeboard(path string, orgCfg config.Organisation) []int {
 	files := getFiles(path)
+	var ids []int
 	for _, f := range files {
 		var result datadog.Screenboard
 		unmarshalData(path, f.Name(), &result)
-		err := ddObjects.CreateScreenboards(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, &result)
+		id, err := ddObjects.CreateScreenboards(orgCfg.APIKey, orgCfg.AppKey, orgCfg.URL, &result)
 		logOutput(err, "screenboard", f.Name())
+		if id != 0 {
+			ids = append(ids, id)
+		}
 	}
+	return ids
 }

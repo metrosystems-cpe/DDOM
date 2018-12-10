@@ -1,6 +1,7 @@
 package ddObjects
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/metrosystems-cpe/DDOM/helpers"
@@ -76,25 +77,64 @@ func TimeboardDetails(APIKey string, AppKey string, orgURL string, timeID string
 }
 
 // CreateDashboards will push a dashboard to the dest organisation
-func CreateDashboards(APIKey string, AppKey string, orgURL string, dash *datadog.Dashboard) error {
+func CreateDashboards(APIKey string, AppKey string, orgURL string, dash *datadog.Dashboard) (int, error) {
 	client := buildDDClient(APIKey, AppKey, orgURL)
-	_, err := client.CreateDashboard(dash)
-
-	return err
+	actual, err := client.CreateDashboard(dash)
+	id := actual.GetId()
+	if id != 0 {
+		fmt.Printf("Dashboard with id %v was created.\n", id)
+	}
+	return id, err
 }
 
 // CreateMonitors will push a monitor to the dest organisation
-func CreateMonitors(APIKey string, AppKey string, orgURL string, mon *datadog.Monitor) error {
+func CreateMonitors(APIKey string, AppKey string, orgURL string, mon *datadog.Monitor) (int, error) {
 	client := buildDDClient(APIKey, AppKey, orgURL)
-	_, err := client.CreateMonitor(mon)
-
-	return err
+	actual, err := client.CreateMonitor(mon)
+	id := actual.GetId()
+	if id != 0 {
+		fmt.Printf("Monitor with id %v was created.\n", id)
+	}
+	return id, err
 }
 
 // CreateScreenboards will push a screenboard to the dest organisation
-func CreateScreenboards(APIKey string, AppKey string, orgURL string, screen *datadog.Screenboard) error {
+func CreateScreenboards(APIKey string, AppKey string, orgURL string, screen *datadog.Screenboard) (int, error) {
 	client := buildDDClient(APIKey, AppKey, orgURL)
-	_, err := client.CreateScreenboard(screen)
+	actual, err := client.CreateScreenboard(screen)
+	id := actual.GetId()
+	if id != 0 {
+		fmt.Printf("Monitor with id %v was created.\n", id)
+	}
+	return id, err
+}
 
-	return err
+func DeleteDashboard(APIKey string, AppKey string, orgURL string, id int) {
+	client := buildDDClient(APIKey, AppKey, orgURL)
+	err := client.DeleteDashboard(id)
+	if err != nil {
+		fmt.Println("Dashboard could not be deleted")
+	} else {
+		fmt.Printf("Dashboard with id %v was deleted\n", id)
+	}
+}
+
+func DeleteMonitor(APIKey string, AppKey string, orgURL string, id int) {
+	client := buildDDClient(APIKey, AppKey, orgURL)
+	err := client.DeleteMonitor(id)
+	if err != nil {
+		fmt.Println("Monitor could not be deleted")
+	} else {
+		fmt.Printf("Monitor with id %v was deleted\n", id)
+	}
+}
+
+func DeleteTimeboard(APIKey string, AppKey string, orgURL string, id int) {
+	client := buildDDClient(APIKey, AppKey, orgURL)
+	err := client.DeleteScreenboard(id)
+	if err != nil {
+		fmt.Println("Timeboard could not be deleted")
+	} else {
+		fmt.Printf("Timeboard with id %v was deleted\n", id)
+	}
 }
